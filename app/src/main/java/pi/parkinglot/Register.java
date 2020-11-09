@@ -27,8 +27,9 @@ public class Register extends AppCompatActivity {
         }
         EditText logreg = (EditText) findViewById(R.id.emailRegister);
         logreg.setText(login);
-
-
     }
 
+    protected void register(){
+
+    }
 }
