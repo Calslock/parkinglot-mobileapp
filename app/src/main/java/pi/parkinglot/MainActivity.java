@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -38,11 +39,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setTitle("Parkinglot b29");
+        setTitle("Parkinglot b35");
         loginbox = (EditText) findViewById(R.id.loginEmail);
         passwordbox = (EditText) findViewById(R.id.loginPassword);
-        testv = (TextView) findViewById(R.id.stView);
-        Log.i("Test", "to działa?");
     }
 
     public void goToRegister(View view) {
@@ -56,13 +55,11 @@ public class MainActivity extends AppCompatActivity {
         String login = loginbox.getText().toString();
         String password = passwordbox.getText().toString();
         final JSONObject[] jresponse = new JSONObject[1];
-            if(!login.matches("") && !password.matches("")){
-                Log.i("Accepted credentials", "true");
+        if(!login.matches("") && !password.matches("")){
                 try {
                     JSONObject credentials = new JSONObject();
                     credentials.put("username", login);
                     credentials.put("password", password);
-                    Log.i("JSON:", credentials.toString());
 
                     RequestQueue queue = Volley.newRequestQueue(this);
 
@@ -71,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
                             new Response.Listener<JSONObject>(){
                                 @Override
                                 public void onResponse(JSONObject response) {
-                                    Log.i("Volley", response.toString());
                                     jresponse[0] = response;
                                 }},
                             new Response.ErrorListener(){
@@ -86,6 +82,14 @@ public class MainActivity extends AppCompatActivity {
                     Log.e("ExceptionError", e.toString());
                 }
             }
-
+        if(jresponse[0] != null) {
+            Intent intent = new Intent(this, MainApp.class);
+            intent.putExtra("userData", jresponse[0].toString());
+            startActivity(intent);
+            this.finish();
+        }
+        else{
+            Toast.makeText(this, "Dane logowania nie są poprawne", Toast.LENGTH_LONG).show();
+        }
     }
 }
