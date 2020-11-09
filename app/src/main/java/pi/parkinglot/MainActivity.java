@@ -14,19 +14,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setTitle("Parkinglot b5");
+        setTitle("Parkinglot b11");
     }
 
     public void goToRegister(View view) {
         Intent intent = new Intent(this, Register.class);
         EditText loginbox = (EditText) findViewById(R.id.loginEmail);
-        EditText passwordbox = (EditText) findViewById(R.id.loginPassword);
-        @Nullable
-        String login = loginbox.toString();
-        @Nullable
-        String password = passwordbox.toString();
-        intent.putExtra("login", login);
-        intent.putExtra("password", password);
+        String login = loginbox.getText().toString();
+        intent.putExtra("logintoreg", login);
         startActivity(intent);
     }
 }
