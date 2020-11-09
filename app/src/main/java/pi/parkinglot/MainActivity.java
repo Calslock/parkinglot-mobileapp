@@ -33,13 +33,12 @@ public class MainActivity extends AppCompatActivity {
 
     EditText loginbox;
     EditText passwordbox;
-    TextView testv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setTitle("Parkinglot b35");
+        setTitle("Parkinglot b49");
         loginbox = (EditText) findViewById(R.id.loginEmail);
         passwordbox = (EditText) findViewById(R.id.loginPassword);
     }
@@ -51,10 +50,20 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void gotoMain(JSONObject response){
+        Intent intent = new Intent(this, MainApp.class);
+        intent.putExtra("userdata", response.toString());
+        startActivity(intent);
+        this.finish();
+    }
+
+    public void showError(){
+        Toast.makeText(this, "Wystąpił błąd z logowaniem", Toast.LENGTH_LONG).show();
+    }
+
     public void login(View view){
         String login = loginbox.getText().toString();
         String password = passwordbox.getText().toString();
-        final JSONObject[] jresponse = new JSONObject[1];
         if(!login.matches("") && !password.matches("")){
                 try {
                     JSONObject credentials = new JSONObject();
@@ -68,12 +77,14 @@ public class MainActivity extends AppCompatActivity {
                             new Response.Listener<JSONObject>(){
                                 @Override
                                 public void onResponse(JSONObject response) {
-                                    jresponse[0] = response;
+                                    Log.e("JSON z loginu", response.toString());
+                                    gotoMain(response);
                                 }},
                             new Response.ErrorListener(){
                                 @Override
                                 public void onErrorResponse(VolleyError error){
                                 Log.e("Volley", error.toString());
+                                showError();
                                 }
                             });
 
@@ -82,14 +93,5 @@ public class MainActivity extends AppCompatActivity {
                     Log.e("ExceptionError", e.toString());
                 }
             }
-        if(jresponse[0] != null) {
-            Intent intent = new Intent(this, MainApp.class);
-            intent.putExtra("userData", jresponse[0].toString());
-            startActivity(intent);
-            this.finish();
-        }
-        else{
-            Toast.makeText(this, "Dane logowania nie są poprawne", Toast.LENGTH_LONG).show();
-        }
     }
 }
