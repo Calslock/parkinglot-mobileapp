@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setTitle("Parkinglot b49");
+        setTitle("Parkinglot b50");
         loginbox = (EditText) findViewById(R.id.loginEmail);
         passwordbox = (EditText) findViewById(R.id.loginPassword);
     }
@@ -77,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
                             new Response.Listener<JSONObject>(){
                                 @Override
                                 public void onResponse(JSONObject response) {
-                                    Log.e("JSON z loginu", response.toString());
                                     gotoMain(response);
                                 }},
                             new Response.ErrorListener(){

@@ -32,7 +32,6 @@ public class MainApp extends AppCompatActivity {
         }else{
             userdata = (String) savedInstanceState.getSerializable("userdata");
         }
-        Log.e("JSON z głównego", userdata);
         if(userdata != null){
             try {
                 data = (JSONObject) parser.parse(userdata);
