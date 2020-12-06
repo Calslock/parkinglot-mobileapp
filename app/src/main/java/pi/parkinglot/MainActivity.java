@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setTitle("Parkinglot b52");
+        setTitle("Parkinglot b53");
         loginbox = (EditText) findViewById(R.id.loginEmail);
         passwordbox = (EditText) findViewById(R.id.loginPassword);
     }
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
     public void login(View view){
         String login = loginbox.getText().toString();
         String password = passwordbox.getText().toString();
-        String url = "http://192.168.0.2:9000/parkinglot-management-system/auth/signin";
+        final String url = "http://192.168.0.2:9000/parkinglot-management-system/auth/signin";
         if(login.matches(".+@.+\\..+") && !password.matches("")){
                 try {
                     JSONObject credentials = new JSONObject();
