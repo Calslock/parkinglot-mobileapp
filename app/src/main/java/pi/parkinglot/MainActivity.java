@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -18,6 +20,7 @@ import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONObject;
 
@@ -28,6 +31,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setTitle("Parkinglot b53");
+        setTitle("Parkinglot b54");
         loginbox = (EditText) findViewById(R.id.loginEmail);
         passwordbox = (EditText) findViewById(R.id.loginPassword);
     }
@@ -91,5 +95,29 @@ public class MainActivity extends AppCompatActivity {
                     Log.e("ExceptionError", e.toString());
                 }
             }
+    }
+
+    private void setupFloatingLabelError(){
+        final TextInputLayout emailLabel = (TextInputLayout)findViewById(R.id.emailTextInputLayout);
+        final TextInputLayout passwordLabel = (TextInputLayout)findViewById(R.id.passwordTextInputLayout);
+
+        emailLabel.getEditText().addTextChangedListener(new TextWatcher(){
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!Pattern.matches(".+@.+\\..+", s)){
+                    emailLabel.setError("Podaj poprawny email");
+                    emailLabel.setErrorEnabled(true);
+                } else {
+                    emailLabel.setErrorEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
     }
 }
