@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setTitle("Parkinglot b50");
+        setTitle("Parkinglot b52");
         loginbox = (EditText) findViewById(R.id.loginEmail);
         passwordbox = (EditText) findViewById(R.id.loginPassword);
     }
@@ -64,15 +64,15 @@ public class MainActivity extends AppCompatActivity {
     public void login(View view){
         String login = loginbox.getText().toString();
         String password = passwordbox.getText().toString();
-        if(!login.matches("") && !password.matches("")){
+        String url = "http://192.168.0.2:9000/parkinglot-management-system/auth/signin";
+        if(login.matches(".+@.+\\..+") && !password.matches("")){
                 try {
                     JSONObject credentials = new JSONObject();
                     credentials.put("username", login);
                     credentials.put("password", password);
-
                     RequestQueue queue = Volley.newRequestQueue(this);
-
-                    JsonObjectRequest jsonReq = new JsonObjectRequest("http://192.168.0.2:9000/parkinglot-management-system/auth/signin",
+                    JsonObjectRequest jsonReq = new JsonObjectRequest(
+                            url,
                             credentials,
                             new Response.Listener<JSONObject>(){
                                 @Override
@@ -86,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
                                 showError();
                                 }
                             });
-
                     queue.add(jsonReq);
                 }catch(Exception e){
                     Log.e("ExceptionError", e.toString());
