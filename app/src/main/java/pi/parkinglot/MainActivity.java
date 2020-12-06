@@ -42,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setTitle("Parkinglot b54");
+        setTitle("Parkinglot b70");
+        this.setupFloatingLabelError();
         loginbox = (EditText) findViewById(R.id.loginEmail);
         passwordbox = (EditText) findViewById(R.id.loginPassword);
     }
@@ -99,10 +100,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupFloatingLabelError(){
         final TextInputLayout emailLabel = (TextInputLayout)findViewById(R.id.emailTextInputLayout);
-        final TextInputLayout passwordLabel = (TextInputLayout)findViewById(R.id.passwordTextInputLayout);
+        //final TextInputLayout passwordLabel = (TextInputLayout)findViewById(R.id.passwordTextInputLayout);
 
         emailLabel.getEditText().addTextChangedListener(new TextWatcher(){
-
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 

@@ -104,7 +104,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Hasło"
-            android:inputType="textPersonName" />
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -125,7 +125,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Powtórz hasło"
-            android:inputType="textPersonName" />
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
