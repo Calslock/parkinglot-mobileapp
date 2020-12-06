@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setTitle("Parkinglot b70");
+        setTitle("Parkinglot b99");
         this.setupFloatingLabelError();
         loginbox = (EditText) findViewById(R.id.loginEmail);
         passwordbox = (EditText) findViewById(R.id.loginPassword);
@@ -60,10 +60,6 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("userdata", response.toString());
         startActivity(intent);
         this.finish();
-    }
-
-    public void showError(){
-        Toast.makeText(this, "Wystąpił błąd z logowaniem", Toast.LENGTH_LONG).show();
     }
 
     public void login(View view){
@@ -88,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void onErrorResponse(VolleyError error){
                                 Log.e("Volley", error.toString());
-                                showError();
+                                Toaster.makeToast(getApplicationContext(), "Wystąpił błąd z logowaniem");
                                 }
                             });
                     queue.add(jsonReq);
