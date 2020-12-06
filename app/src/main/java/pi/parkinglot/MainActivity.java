@@ -37,15 +37,18 @@ public class MainActivity extends AppCompatActivity {
 
     EditText loginbox;
     EditText passwordbox;
+    TextView versionbox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setTitle("Parkinglot b99");
+        setTitle("Parkinglot");
         this.setupFloatingLabelError();
         loginbox = (EditText) findViewById(R.id.loginEmail);
         passwordbox = (EditText) findViewById(R.id.loginPassword);
+        versionbox = (TextView) findViewById(R.id.version);
+        versionbox.setText("v0.3b111");
     }
 
     public void goToRegister(View view) {

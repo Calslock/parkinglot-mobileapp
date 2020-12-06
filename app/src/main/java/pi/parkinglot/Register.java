@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -92,6 +93,7 @@ public class Register extends AppCompatActivity {
                             @Override
                             public void onResponse(JSONObject response) {
                                 Toaster.makeToast(getApplicationContext(), "Pomyślnie zarejestrowano! Kliknij w link w wiadomości wysłanej na e-mail aby potwierdzić konto.");
+                                gotoLogin();
                             }},
                         new Response.ErrorListener(){
                             @Override
@@ -100,6 +102,13 @@ public class Register extends AppCompatActivity {
                                 Toaster.makeToast(getApplicationContext(), "Wystąpił błąd podczas przetwarzania żądania");
                             }
                         });
+
+                jsonReq.setRetryPolicy(new DefaultRetryPolicy(
+                        5000,
+                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+                ));
+
                 queue.add(jsonReq);
             }catch(Exception e){
                 Log.e("ExceptionError", e.toString());
@@ -134,6 +143,12 @@ public class Register extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+    public void gotoLogin(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        this.finish();
     }
 
     private void setupFloatingLabelError(){
@@ -200,6 +215,33 @@ public class Register extends AppCompatActivity {
 
         companyNameLabel.setHelperText("Niewymagane");
         companyNameLabel.setHelperTextEnabled(true);
+
+        companyNameLabel.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length()==0){
+                    companyNameLabel.setHelperText("Niewymagane");
+                    companyNameLabel.setHelperTextEnabled(true);
+                } else if (s.length()<3){
+                    companyNameLabel.setHelperTextEnabled(false);
+                    companyNameLabel.setError("Nazwa firmy musi zawierać co najmniej 3 znaki");
+                    companyNameLabel.setErrorEnabled(true);
+                } else {
+                    companyNameLabel.setErrorEnabled(false);
+                    companyNameLabel.setHelperTextEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         firstNameLabel.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
