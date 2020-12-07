@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         loginbox = (EditText) findViewById(R.id.loginEmail);
         passwordbox = (EditText) findViewById(R.id.loginPassword);
         versionbox = (TextView) findViewById(R.id.version);
-        versionbox.setText("v0.3b143");
+        versionbox.setText("v0.4b158");
     }
 
     public void goToRegister(View view) {
