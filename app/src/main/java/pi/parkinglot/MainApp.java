@@ -7,16 +7,13 @@ import android.util.JsonWriter;
 import android.util.Log;
 import android.widget.TextView;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import org.json.JSONObject;
 
 public class MainApp extends AppCompatActivity {
 
-    JSONParser parser;
     JSONObject data;
     TextView tests;
-    JWToken user;
+    JWToken userToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,25 +22,17 @@ public class MainApp extends AppCompatActivity {
         this.setTitle("Menu główne");
 
         tests = (TextView)findViewById(R.id.testView);
-        parser = new JSONParser();
 
-        String userdata = null;
         if(savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if (extras != null) {
-                userdata = extras.getString("userdata");
+                userToken = extras.getParcelable("userToken");
             }
-        }else{
-            userdata = (String) savedInstanceState.getSerializable("userdata");
         }
 
-        if(userdata != null){
+        if(userToken != null){
             try {
-                data = (JSONObject) parser.parse(userdata);
-                user = new JWToken(data);
-                Log.e("z bundla", userdata);
-                String zjson = user.returnData();
-                Log.e("z jasiona", zjson);
+                //TODO user handling
             } catch (Exception e) {
                 Log.e("ExceptionError", e.toString());
             }

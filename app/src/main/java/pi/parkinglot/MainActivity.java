@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         loginbox = (EditText) findViewById(R.id.loginEmail);
         passwordbox = (EditText) findViewById(R.id.loginPassword);
         versionbox = (TextView) findViewById(R.id.version);
-        versionbox.setText("v0.3b120");
+        versionbox.setText("v0.3b142");
     }
 
     public void goToRegister(View view) {
@@ -60,7 +61,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void gotoMain(JSONObject response){
         Intent intent = new Intent(this, MainApp.class);
-        intent.putExtra("userdata", response.toString());
+        JWToken userToken = new JWToken(response);
+        intent.putExtra("userToken", userToken);
         startActivity(intent);
         this.finish();
     }

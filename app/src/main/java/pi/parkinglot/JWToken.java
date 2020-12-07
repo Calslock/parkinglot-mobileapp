@@ -1,35 +1,62 @@
 package pi.parkinglot;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.simple.JSONObject;
+import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class JWToken {
+public class JWToken implements Parcelable {
+
+    public static final Creator<JWToken> CREATOR = new Creator<JWToken>() {
+        @Override
+        public JWToken createFromParcel(Parcel in) {
+            return new JWToken(in);
+        }
+
+        @Override
+        public JWToken[] newArray(int size) {
+            return new JWToken[size];
+        }
+    };
+
     private long id;
     private List<String> roles;
     private String accessToken;
     private String tokenType;
     private String username;
 
-    JWToken(JSONObject data){
-        this.id = (long) data.get("id");
-        /*JSONArray rolesArray = (JSONArray) data.get("roles");
-        for(int i=0; i<rolesArray.length(); i++){
-            try {
-                roles.add(rolesArray.getString(i));
-            } catch (Exception e) {
-                Log.e("ExceptionError", e.toString());
+    public JWToken(JSONObject data){
+        roles = new ArrayList<String>();
+        try {
+            this.id = ((Number) data.get("id")).longValue();
+            JSONArray rolesArray = (JSONArray) data.get("roles");
+            for(int i=0; i<rolesArray.length(); i++){
+                roles.add((String) rolesArray.get(i));
             }
-        }*/
-        this.accessToken = (String) data.get("accessToken");
-        this.tokenType = (String) data.get("tokenType");
-        this.username = (String) data.get("username");
+            Log.e("role z listy", roles.toString());
+            this.accessToken = (String) data.get("accessToken");
+            this.tokenType = (String) data.get("tokenType");
+            this.username = (String) data.get("username");
+        } catch (Exception e){
+            Log.e("To tu wywala inta?", e.toString());
+        }
     }
+
+    public JWToken(Parcel in) {
+        id = in.readLong();
+        roles = in.createStringArrayList();
+        accessToken = in.readString();
+        tokenType = in.readString();
+        username = in.readString();
+    }
+
 
     public long getId() {
         return id;
@@ -53,5 +80,20 @@ public class JWToken {
 
     public String returnData(){
         return this.roles.toString() + " " + this.id + " " + this.accessToken + " " + this.tokenType + " " + this.username;
+    }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
+        dest.writeStringList(roles);
+        dest.writeString(accessToken);
+        dest.writeString(tokenType);
+        dest.writeString(username);
     }
 }
