@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -29,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
     TextView versionbox;
 
     //TODO user only verification
-    //TODO logout
     //TODO parse firstname and lastname into drawer
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         loginbox = (EditText) findViewById(R.id.loginEmail);
         passwordbox = (EditText) findViewById(R.id.loginPassword);
         versionbox = (TextView) findViewById(R.id.version);
-        versionbox.setText("v0.4b176");
+        versionbox.setText("v0.5b215");
     }
 
     public void goToRegister(View view) {
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                     credentials.put("username", login);
                     credentials.put("password", password);
                     RequestQueue queue = Volley.newRequestQueue(this);
-                    JsonObjectRequest jsonReq = new JsonObjectRequest(
+                    JsonObjectRequest jsonReq = new JsonObjectRequest(Request.Method.POST,
                             url,
                             credentials,
                             new Response.Listener<JSONObject>(){

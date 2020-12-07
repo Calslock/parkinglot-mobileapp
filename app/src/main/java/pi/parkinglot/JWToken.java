@@ -36,7 +36,7 @@ public class JWToken implements Parcelable {
             this.id = ((Number) data.get("id")).longValue();
             JSONArray rolesArray = (JSONArray) data.get("roles");
             for(int i=0; i<rolesArray.length(); i++){
-                roles.add((String) rolesArray.get(i));
+                this.roles.add((String) rolesArray.get(i));
             }
             this.accessToken = (String) data.get("accessToken");
             this.tokenType = (String) data.get("tokenType");

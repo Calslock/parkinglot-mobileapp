@@ -17,16 +17,26 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MainApp extends AppCompatActivity {
 
     JWToken userToken;
     AppBarConfiguration mAppBarConfiguration;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +75,32 @@ public class MainApp extends AppCompatActivity {
 
         if(userToken != null){
             try {
-                //TODO user handling
+                final String url = "http://192.168.0.2:9000/parkinglot-management-system/api/users/" + userToken.getId();
+                RequestQueue queue = Volley.newRequestQueue(this);
+                JsonObjectRequest jsonReq = new JsonObjectRequest(Request.Method.GET,
+                        url,
+                        null,
+                        new Response.Listener<JSONObject>(){
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                createUserAndContent(response);
+                            }},
+                        new Response.ErrorListener(){
+                            @Override
+                            public void onErrorResponse(VolleyError error){
+                                Log.e("Volley", error.toString());
+                                Toaster.makeToast(getApplicationContext(), "Nie można było pobrać danych użytkownika");
+                            }
+                        }){
+                        @Override
+                        public Map<String, String> getHeaders(){
+                            Map<String, String> params = new HashMap<String, String>();
+                            params.put("Authorization", userToken.getTokenType() + " " + userToken.getAccessToken());
+
+                            return params;
+                        }
+                };
+                queue.add(jsonReq);
             } catch (Exception e) {
                 Log.e("ExceptionError", e.toString());
             }
@@ -73,6 +108,11 @@ public class MainApp extends AppCompatActivity {
             Toaster.makeToast(getApplicationContext(), "Logowanie nie powiodło się");
             this.finish();
         }
+    }
+
+    private void createUserAndContent(JSONObject response){
+        Log.e("Użytkownik", response.toString());
+        user = new User(response);
     }
 
     @Override

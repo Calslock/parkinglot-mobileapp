@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -84,7 +85,7 @@ public class Register extends AppCompatActivity {
                 roleArray.put("");
                 credentials.put("roles", roleArray);
                 RequestQueue queue = Volley.newRequestQueue(this);
-                JsonObjectRequest jsonReq = new JsonObjectRequest(
+                JsonObjectRequest jsonReq = new JsonObjectRequest(Request.Method.POST,
                         url,
                         credentials,
                         new Response.Listener<JSONObject>(){
