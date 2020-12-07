@@ -1,6 +1,5 @@
 package pi.parkinglot;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -10,7 +9,6 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.RequestQueue;
@@ -51,7 +49,7 @@ public class Register extends AppCompatActivity {
                 }
             }
         } else {
-            if (!((String) savedInstanceState.getSerializable("logintoreg")).equals("")) {
+            if (!(savedInstanceState.getSerializable("logintoreg")).equals("")) {
                 login = (String) savedInstanceState.getSerializable("logintoreg");
             }
             EditText logreg = (EditText) findViewById(R.id.emailRegister);

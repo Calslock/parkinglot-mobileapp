@@ -1,23 +1,18 @@
 package pi.parkinglot;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -25,13 +20,6 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
@@ -49,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         loginbox = (EditText) findViewById(R.id.loginEmail);
         passwordbox = (EditText) findViewById(R.id.loginPassword);
         versionbox = (TextView) findViewById(R.id.version);
-        versionbox.setText("v0.3b142");
+        versionbox.setText("v0.3b143");
     }
 
     public void goToRegister(View view) {

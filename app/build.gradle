@@ -8,8 +8,8 @@ android {
         applicationId "pi.parkinglot"
         minSdkVersion 26
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        versionCode 143
+        versionName "0.3"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

@@ -5,11 +5,9 @@ import android.os.Parcelable;
 import android.util.Log;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class JWToken implements Parcelable {
@@ -40,12 +38,11 @@ public class JWToken implements Parcelable {
             for(int i=0; i<rolesArray.length(); i++){
                 roles.add((String) rolesArray.get(i));
             }
-            Log.e("role z listy", roles.toString());
             this.accessToken = (String) data.get("accessToken");
             this.tokenType = (String) data.get("tokenType");
             this.username = (String) data.get("username");
         } catch (Exception e){
-            Log.e("To tu wywala inta?", e.toString());
+            Log.e("ExceptionError", e.toString());
         }
     }
 
