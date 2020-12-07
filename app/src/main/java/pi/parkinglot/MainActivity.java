@@ -28,6 +28,9 @@ public class MainActivity extends AppCompatActivity {
     EditText passwordbox;
     TextView versionbox;
 
+    //TODO user only verification
+    //TODO logout
+    //TODO parse firstname and lastname into drawer
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         loginbox = (EditText) findViewById(R.id.loginEmail);
         passwordbox = (EditText) findViewById(R.id.loginPassword);
         versionbox = (TextView) findViewById(R.id.version);
-        versionbox.setText("v0.4b158");
+        versionbox.setText("v0.4b172");
     }
 
     public void goToRegister(View view) {

@@ -10,4 +10,22 @@
         android:name="pi.parkinglot.accountData.accountDataFragment"
         android:label="@string/menu_accountData"
         tools:layout="@layout/account_data_fragment" />
+
+    <fragment
+        android:id="@+id/nav_cars"
+        android:name="pi.parkinglot.cars.carsFragment"
+        android:label="@string/menu_accountData"
+        tools:layout="@layout/account_data_fragment" />
+
+    <fragment
+        android:id="@+id/nav_parkings"
+        android:name="pi.parkinglot.parkings.parkingsFragment"
+        android:label="@string/menu_accountData"
+        tools:layout="@layout/account_data_fragment" />
+
+    <fragment
+        android:id="@+id/nav_payments"
+        android:name="pi.parkinglot.payments.paymentsFragment"
+        android:label="@string/menu_accountData"
+        tools:layout="@layout/account_data_fragment" />
 </navigation>
