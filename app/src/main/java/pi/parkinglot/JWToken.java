@@ -31,7 +31,7 @@ public class JWToken implements Parcelable {
     private String username;
 
     public JWToken(JSONObject data){
-        roles = new ArrayList<String>();
+        roles = new ArrayList<>();
         try {
             this.id = ((Number) data.get("id")).longValue();
             JSONArray rolesArray = (JSONArray) data.get("roles");
@@ -73,10 +73,6 @@ public class JWToken implements Parcelable {
 
     public String getUsername() {
         return username;
-    }
-
-    public String returnData(){
-        return this.roles.toString() + " " + this.id + " " + this.accessToken + " " + this.tokenType + " " + this.username;
     }
 
 
