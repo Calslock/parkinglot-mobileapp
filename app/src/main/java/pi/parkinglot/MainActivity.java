@@ -21,12 +21,17 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
 
     EditText loginbox;
     EditText passwordbox;
+
+    JWToken userToken;
+    User user;
 
     //TODO user only verification
     //TODO parse firstname and lastname into drawer
@@ -47,15 +52,16 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void gotoMain(JSONObject response){
+    public void createUserGoToMain(JSONObject response){
         Intent intent = new Intent(this, MainApp.class);
-        JWToken userToken = new JWToken(response);
         intent.putExtra("userToken", userToken);
+        user = new User(response);
+        intent.putExtra("user", user);
         startActivity(intent);
         this.finish();
     }
 
-    public void login(View view){
+    public void getToken(View view){
         String login = loginbox.getText().toString();
         String password = passwordbox.getText().toString();
         final String url = "http://192.168.0.2:9000/parkinglot-management-system/auth/signin";
@@ -71,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                             new Response.Listener<JSONObject>(){
                                 @Override
                                 public void onResponse(JSONObject response) {
-                                    gotoMain(response);
+                                    login(response);
                                 }},
                             new Response.ErrorListener(){
                                 @Override
@@ -86,6 +92,40 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
     }
+
+    public void login(JSONObject response){
+        userToken = new JWToken(response);
+        try {
+            final String url = "http://192.168.0.2:9000/parkinglot-management-system/api/users/" + userToken.getId();
+            RequestQueue queue = Volley.newRequestQueue(this);
+            JsonObjectRequest jsonReq = new JsonObjectRequest(Request.Method.GET,
+                    url,
+                    null,
+                    new Response.Listener<JSONObject>(){
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            createUserGoToMain(response);
+                        }},
+                    new Response.ErrorListener(){
+                        @Override
+                        public void onErrorResponse(VolleyError error){
+                            Log.e("Volley", error.toString());
+                            Toaster.makeToast(getApplicationContext(), "Nie można było pobrać danych użytkownika");
+                        }
+                    }){
+                @Override
+                public Map<String, String> getHeaders(){
+                    Map<String, String> params = new HashMap<>();
+                    params.put("Authorization", userToken.getTokenType() + " " + userToken.getAccessToken());
+                    return params;
+                }
+            };
+            queue.add(jsonReq);
+        } catch (Exception e) {
+            Log.e("ExceptionError", e.toString());
+        }
+    }
+
 
     private void setupFloatingLabelError(){
         final TextInputLayout emailLabel = (TextInputLayout)findViewById(R.id.emailTextInputLayout);

@@ -60,7 +60,7 @@ public class User implements Parcelable {
         companyName = in.readString();
         username = in.readString();
         roles = in.createStringArrayList();
-        cars = null;
+        cars = new ArrayList<>();
         int size = in.readInt();
         for(int i=0; i<size; i++){
             Car car = new Car(in.readString());
@@ -106,6 +106,10 @@ public class User implements Parcelable {
 
     public List<Car> getCars() {
         return cars;
+    }
+
+    public String toLog() {
+        return id+" "+firstName+" "+lastName+" "+companyName+" "+username;
     }
 
     @Override
