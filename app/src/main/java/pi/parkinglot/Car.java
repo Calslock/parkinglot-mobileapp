@@ -46,4 +46,11 @@ public class Car {
         return id+"@"+brand+"@"+model+"@"+licenseNumber;
     }
 
+    public static String toStaticParcelFormat(Car car){
+        return car.getId()+"@"+car.getBrand()+"@"+car.getModel()+"@"+car.getLicenseNumber();
+    }
+
+    public static Car toCar(String encodedString){
+        return new Car(encodedString);
+    }
 }

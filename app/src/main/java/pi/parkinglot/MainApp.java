@@ -45,17 +45,23 @@ public class MainApp extends AppCompatActivity {
     TextView sideBarName, sideBarUsername;
     NavigationView navigationView;
 
+    UserRoomDatabase userDB;
+    UserDao userDao;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_app);
         this.setTitle("Menu główne");
 
+        userDB = UserRoomDatabase.getDatabase(getApplicationContext());
+        userDao = userDB.userDao();
+
         if(savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if (extras != null) {
                 userToken = extras.getParcelable("userToken");
-                user = extras.getParcelable("user");
             }
         }
 
@@ -72,7 +78,14 @@ public class MainApp extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        setSideBarContent();
+        new Thread(new Runnable(){
+            @Override
+            public void run() {
+                user = userDao.getUser(userToken.getId());
+                setSideBarContent();
+            }
+        }).start();
+
     }
 
     @SuppressLint("SetTextI18n")

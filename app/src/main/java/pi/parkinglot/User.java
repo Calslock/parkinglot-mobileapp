@@ -4,20 +4,42 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity(tableName = "user_table")
+@TypeConverters({Converters.class})
 public class User implements Parcelable {
 
+    @PrimaryKey
     private long id;
+
+    @ColumnInfo(name = "firstName")
     private String firstName;
+
+    @ColumnInfo(name = "lastName")
     private String lastName;
+
+    @ColumnInfo(name = "companyName")
     private String companyName;
+
+    @ColumnInfo(name = "username")
     private String username;
+
+    @TypeConverters({Converters.class})
+    @ColumnInfo(name = "roles")
     private List<String> roles;
+
+    @TypeConverters({Converters.class})
+    @ColumnInfo(name = "cars")
     private List<Car> cars;
 
     public User(JSONObject data){
@@ -68,6 +90,16 @@ public class User implements Parcelable {
         }
     }
 
+    public User(long id, String firstName, String lastName, String companyName, String username, List<String> roles, List<Car> cars) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.companyName = companyName;
+        this.username = username;
+        this.roles = roles;
+        this.cars = cars;
+    }
+
     public static final Creator<User> CREATOR = new Creator<User>() {
         @Override
         public User createFromParcel(Parcel in) {
@@ -84,28 +116,56 @@ public class User implements Parcelable {
         return id;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public String getFirstName() {
         return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getLastName() {
         return lastName;
     }
 
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     public String getCompanyName() {
         return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
     public String getUsername() {
         return username;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public List<String> getRoles() {
         return roles;
     }
 
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
+    }
+
     public List<Car> getCars() {
         return cars;
+    }
+
+    public void setCars(List<Car> cars) {
+        this.cars = cars;
     }
 
     public String toLog() {

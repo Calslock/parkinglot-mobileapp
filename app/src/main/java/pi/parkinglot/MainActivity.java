@@ -33,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
     JWToken userToken;
     User user;
 
+    UserRoomDatabase userDB;
+    UserDao userDao;
+
     //TODO user only verification
     //TODO parse firstname and lastname into drawer
     @Override
@@ -43,6 +46,14 @@ public class MainActivity extends AppCompatActivity {
         this.setupFloatingLabelError();
         loginbox = (EditText) findViewById(R.id.loginEmail);
         passwordbox = (EditText) findViewById(R.id.loginPassword);
+        userDB = UserRoomDatabase.getDatabase(getApplicationContext());
+        userDao = userDB.userDao();
+        try{
+            userDao.deleteAll();
+        } catch(Exception e){
+            Log.e("ExceptionError", e.toString());
+        }
+
     }
 
     public void goToRegister(View view) {
@@ -53,11 +64,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void createUserGoToMain(JSONObject response){
-        Intent intent = new Intent(this, MainApp.class);
-        intent.putExtra("userToken", userToken);
         user = new User(response);
-        intent.putExtra("user", user);
-        startActivity(intent);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                userDao.insert(user);
+                Intent intent = new Intent(getApplicationContext(), MainApp.class);
+                intent.putExtra("userToken", userToken);
+                startActivity(intent);
+            }
+        }).start();
         this.finish();
     }
 
