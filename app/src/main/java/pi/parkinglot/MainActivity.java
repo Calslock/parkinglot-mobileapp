@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
 
     EditText loginbox;
     EditText passwordbox;
-    TextView versionbox;
 
     //TODO user only verification
     //TODO parse firstname and lastname into drawer
@@ -39,8 +38,6 @@ public class MainActivity extends AppCompatActivity {
         this.setupFloatingLabelError();
         loginbox = (EditText) findViewById(R.id.loginEmail);
         passwordbox = (EditText) findViewById(R.id.loginPassword);
-        versionbox = (TextView) findViewById(R.id.version);
-        versionbox.setText("v0.5b232");
     }
 
     public void goToRegister(View view) {

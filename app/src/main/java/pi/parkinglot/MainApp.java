@@ -39,8 +39,9 @@ public class MainApp extends AppCompatActivity {
     AppBarConfiguration mAppBarConfiguration;
     User user;
 
-    TextView sideBarName;
-    TextView sideBarUsername;
+    TextView sideBarName, sideBarUsername;
+
+    TextView firstName, lastName, companyName, email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,14 +51,6 @@ public class MainApp extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Snackbar.make(v, "test", Snackbar.LENGTH_LONG)
-                        .setAction("Akcjatestowa", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -113,16 +106,36 @@ public class MainApp extends AppCompatActivity {
         }
     }
 
-    @SuppressLint("SetTextI18n")
     private void createUserAndContent(JSONObject response){
         Log.e("Użytkownik", response.toString());
         user = new User(response);
 
+        setSideBar();
+        setContent();
+
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void setSideBar(){
         sideBarName = (TextView) findViewById(R.id.sideBarName);
         sideBarUsername = (TextView) findViewById(R.id.sideBarUsername);
 
         sideBarName.setText(user.getFirstName() + " " + user.getLastName());
         sideBarUsername.setText(user.getUsername());
+    }
+
+    private void setContent(){
+        firstName = (TextView) findViewById(R.id.acFirstName);
+        firstName.setText(user.getFirstName());
+
+        lastName = (TextView) findViewById(R.id.acLastName);
+        lastName.setText(user.getLastName());
+
+        companyName = (TextView) findViewById(R.id.acCompanyName);
+        companyName.setText(user.getCompanyName());
+
+        email = (TextView) findViewById(R.id.acUsername);
+        email.setText(user.getUsername());
     }
 
     @Override
