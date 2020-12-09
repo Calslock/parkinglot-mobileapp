@@ -94,7 +94,7 @@ public class MainApp extends AppCompatActivity {
                         }){
                         @Override
                         public Map<String, String> getHeaders(){
-                            Map<String, String> params = new HashMap<String, String>();
+                            Map<String, String> params = new HashMap<>();
                             params.put("Authorization", userToken.getTokenType() + " " + userToken.getAccessToken());
 
                             return params;

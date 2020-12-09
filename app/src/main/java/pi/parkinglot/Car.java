@@ -38,6 +38,10 @@ public class Car {
         return licenseNumber;
     }
 
+    public String toLog() {
+        return id+": "+brand+" "+model+" - "+licenseNumber;
+    }
+
     public String toParcelFormat() {
         return id+"@"+brand+"@"+model+"@"+licenseNumber;
     }

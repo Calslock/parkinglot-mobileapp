@@ -30,15 +30,12 @@ public class User implements Parcelable {
             this.companyName = (String) data.get("companyName");
             this.username = (String) data.get("username");
             JSONArray rolesArray = (JSONArray) data.get("roles");
-            int k = rolesArray.length();
             for(int i=0; i<rolesArray.length(); i++){
                 JSONObject roleSingleton = (JSONObject) rolesArray.get(i);
                 String roleToAdd = (String) roleSingleton.get("authority");
                 roles.add(roleToAdd);
-                Log.e("role z listy", roleToAdd);
             }
-
-            /*JSONArray carsArray = (JSONArray) data.get("cars");
+            JSONArray carsArray = (JSONArray) data.get("cars");
             for(int i=0; i<carsArray.length(); i++){
                 JSONObject carSingleton = (JSONObject) carsArray.get(i);
                 JSONObject modelSingleton = (JSONObject) carSingleton.get("model");
@@ -50,9 +47,9 @@ public class User implements Parcelable {
                 String licenseNumber = (String) carSingleton.get("licenseNumber");
                 Car car = new Car(carId, brand, model, licenseNumber);
                 this.cars.add(car);
-            }*/
+            }
         } catch (Exception e){
-            Log.e("To tutaj?", e.toString());
+            Log.e("ExceptionError", e.toString());
         }
     }
 
