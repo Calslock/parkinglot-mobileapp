@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_accountData"
+            android:title="@string/menu_accountData" />
+
+        <item
+            android:id="@+id/nav_cars"
+            android:title="@string/menu_cars" />
+
+        <item
+            android:id="@+id/nav_parkings"
+            android:title="@string/menu_parkings" />
+
+        <item
+            android:id="@+id/nav_payments"
+            android:title="@string/menu_payments" />
+    </group>
+</menu>

@@ -31,12 +31,12 @@ public class JWToken implements Parcelable {
     private String username;
 
     public JWToken(JSONObject data){
-        roles = new ArrayList<String>();
+        roles = new ArrayList<>();
         try {
             this.id = ((Number) data.get("id")).longValue();
             JSONArray rolesArray = (JSONArray) data.get("roles");
             for(int i=0; i<rolesArray.length(); i++){
-                roles.add((String) rolesArray.get(i));
+                this.roles.add((String) rolesArray.get(i));
             }
             this.accessToken = (String) data.get("accessToken");
             this.tokenType = (String) data.get("tokenType");
@@ -73,10 +73,6 @@ public class JWToken implements Parcelable {
 
     public String getUsername() {
         return username;
-    }
-
-    public String returnData(){
-        return this.roles.toString() + " " + this.id + " " + this.accessToken + " " + this.tokenType + " " + this.username;
     }
 
 

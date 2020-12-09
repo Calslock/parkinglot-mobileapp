@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_accountData">
+
+    <fragment
+        android:id="@+id/nav_accountData"
+        android:name="pi.parkinglot.accountData.accountDataFragment"
+        android:label="@string/menu_accountData"
+        tools:layout="@layout/account_data_fragment" />
+
+    <fragment
+        android:id="@+id/nav_cars"
+        android:name="pi.parkinglot.cars.carsFragment"
+        android:label="@string/menu_cars"
+        tools:layout="@layout/account_data_fragment" />
+
+    <fragment
+        android:id="@+id/nav_parkings"
+        android:name="pi.parkinglot.parkings.parkingsFragment"
+        android:label="@string/menu_parkings"
+        tools:layout="@layout/account_data_fragment" />
+
+    <fragment
+        android:id="@+id/nav_payments"
+        android:name="pi.parkinglot.payments.paymentsFragment"
+        android:label="@string/menu_payments"
+        tools:layout="@layout/account_data_fragment" />
+</navigation>
