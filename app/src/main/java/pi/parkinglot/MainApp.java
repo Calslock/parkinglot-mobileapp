@@ -8,6 +8,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,6 +38,9 @@ public class MainApp extends AppCompatActivity {
     JWToken userToken;
     AppBarConfiguration mAppBarConfiguration;
     User user;
+
+    TextView sideBarName;
+    TextView sideBarUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +100,6 @@ public class MainApp extends AppCompatActivity {
                         public Map<String, String> getHeaders(){
                             Map<String, String> params = new HashMap<>();
                             params.put("Authorization", userToken.getTokenType() + " " + userToken.getAccessToken());
-
                             return params;
                         }
                 };
@@ -110,9 +113,16 @@ public class MainApp extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void createUserAndContent(JSONObject response){
         Log.e("Użytkownik", response.toString());
         user = new User(response);
+
+        sideBarName = (TextView) findViewById(R.id.sideBarName);
+        sideBarUsername = (TextView) findViewById(R.id.sideBarUsername);
+
+        sideBarName.setText(user.getFirstName() + " " + user.getLastName());
+        sideBarUsername.setText(user.getUsername());
     }
 
     @Override
