@@ -1,5 +1,9 @@
 <resources>
-    <string name="app_name">My Application</string>
+
+    <string name="version">v0.7b563</string>
+
+
+    <string name="app_name">ParkingLot</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Sample User</string>
@@ -7,9 +11,30 @@
     <string name="nav_header_desc">Navigation header</string>
 
     <string name="action_logout">Wyloguj</string>
+    <string name="placeholder">Default</string>
 
     <string name="menu_accountData">Dane konta</string>
     <string name="menu_cars">Pojazdy</string>
     <string name="menu_parkings">Parkowania</string>
     <string name="menu_payments">Płatności</string>
+
+    <string name="first_name">Imię</string>
+    <string name="last_name">Nazwisko</string>
+    <string name="company_name">Nazwa firmy</string>
+    <string name="email">E-mail</string>
+    <string name="password">Hasło</string>
+    <string name="old_password">Stare hasło</string>
+    <string name="confirm_password">Potwierdź hasło</string>
+    <string name="login">Zaloguj</string>
+    <string name="register">Rejestracja</string>
+    <string name="registeracc">Zarejestruj</string>
+
+    <string name="acHeader">Dane konta</string>
+    <string name="edit_account_data">Edytuj dane</string>
+    <string name="change_password">Zmień hasło</string>
+
+    <string name="brand">Marka</string>
+    <string name="model">Model</string>
+    <string name="license_plate">Tablica</string>
+
 </resources>
