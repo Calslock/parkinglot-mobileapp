@@ -1,6 +1,6 @@
 <resources>
 
-    <string name="version">v0.7b482</string>
+    <string name="version">v0.7b524</string>
 
 
     <string name="app_name">ParkingLot</string>
@@ -23,6 +23,7 @@
     <string name="company_name">Nazwa firmy</string>
     <string name="email">E-mail</string>
     <string name="password">Hasło</string>
+    <string name="old_password">Stare hasło</string>
     <string name="confirm_password">Potwierdź hasło</string>
     <string name="login">Zaloguj</string>
     <string name="register">Rejestracja</string>

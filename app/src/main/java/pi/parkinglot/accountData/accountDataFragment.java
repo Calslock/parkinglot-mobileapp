@@ -56,7 +56,7 @@ public class accountDataFragment extends Fragment {
     TextView firstName, lastName, companyName, username;
     TextView sideBarName, sideBarUsername;
     Button bChangePassword, bChangeAccountData;
-    EditText passwordChange, confirmPasswordChange;
+    EditText oldPassword, passwordChange, confirmPasswordChange;
     EditText eFirstName, eLastName, eCompanyName, eUsername;
 
     AlertDialog.Builder builder;
@@ -98,12 +98,52 @@ public class accountDataFragment extends Fragment {
                             builder.setPositiveButton("Zmień hasło", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    oldPassword = (EditText) dialogView.findViewById(R.id.acOldPasswordEditText);
                                     passwordChange = (EditText) dialogView.findViewById(R.id.acChangePasswordEditText);
                                     confirmPasswordChange = (EditText) dialogView.findViewById(R.id.acChangePasswordConfirmTextEdit);
 
+                                    String old = oldPassword.getText().toString();
                                     String password = passwordChange.getText().toString();
                                     String confirmPassword = confirmPasswordChange.getText().toString();
 
+                                    JSONObject jsonMiniUser = new JSONObject();
+
+                                    if(password.length()>=8 || password.equals(confirmPassword)) {
+                                        try {
+                                            jsonMiniUser.put("id", user.getId());
+                                            jsonMiniUser.put("username", user.getId());
+                                            jsonMiniUser.put("oldPassword", old);
+                                            jsonMiniUser.put("newPassword", password);
+
+                                            final String url = "http://192.168.0.2:9000/parkinglot-management-system/api/users/" + user.getUsername() + "/changePassword";
+                                                RequestQueue queue = Volley.newRequestQueue(mContext);
+                                                JsonObjectRequest jsonReq = new JsonObjectRequest(Request.Method.PUT,
+                                                        url,
+                                                        jsonMiniUser,
+                                                        new Response.Listener<JSONObject>(){
+                                                            @Override
+                                                            public void onResponse(JSONObject response) {
+                                                                Toaster.makeToast(mContext, "Pomyślnie zmieniono hasło!");
+                                                            }},
+                                                        new Response.ErrorListener(){
+                                                            @Override
+                                                            public void onErrorResponse(VolleyError error){
+                                                                Log.e("Volley", error.toString());
+                                                                Toaster.makeToast(mContext, "Wystąpił błąd z wysyłaniem danych");
+                                                            }
+                                                        }){
+                                                    @Override
+                                                    public Map<String, String> getHeaders(){
+                                                        Map<String, String> params = new HashMap<>();
+                                                        params.put("Authorization", userToken.getTokenType() + " " + userToken.getAccessToken());
+                                                        return params;
+                                                    }
+                                                };
+                                                queue.add(jsonReq);
+                                            }catch(Exception e){
+                                                Log.e("ExceptionError", e.toString());
+                                            }
+                                    }
                                 }
                             });
 
@@ -158,7 +198,6 @@ public class accountDataFragment extends Fragment {
 
                                     final String url = "http://192.168.0.2:9000/parkinglot-management-system/api/users/" + user.getId();
                                         try {
-                                            JSONObject credentials = new JSONObject();
                                             RequestQueue queue = Volley.newRequestQueue(mContext);
                                             JsonObjectRequest jsonReq = new JsonObjectRequest(Request.Method.PUT,
                                                     url,
@@ -225,8 +264,34 @@ public class accountDataFragment extends Fragment {
     }
 
     private void setupFloatingLabelErrorChangePassword(View root){
+        final TextInputLayout oldPassword = (TextInputLayout) root.findViewById(R.id.acOldPasswordLabel);
         final TextInputLayout passwordLabel = (TextInputLayout) root.findViewById(R.id.acChangePasswordLabel);
         final TextInputLayout confirmPasswordLabel = (TextInputLayout) root.findViewById(R.id.acChangePasswordConfirmLabel);
+
+
+        oldPassword.setError("To pole nie może być puste");
+        oldPassword.setErrorEnabled(true);
+        oldPassword.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length()>0){
+                    oldPassword.setErrorEnabled(false);
+                }else{
+                    oldPassword.setError("To pole nie może być puste");
+                    oldPassword.setErrorEnabled(true);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         passwordLabel.setHelperText("Hasło powinno zawierać co najmniej 8 znaków");
         passwordLabel.setHelperTextEnabled(true);
