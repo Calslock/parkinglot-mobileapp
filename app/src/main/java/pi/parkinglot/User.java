@@ -65,9 +65,11 @@ public class User implements Parcelable {
 
                 long carId = ((Number) carSingleton.get("id")).longValue();
                 String brand = (String) brandSingleton.get("name");
+                long brandId = ((Number) brandSingleton.get("id")).longValue();
                 String model = (String) modelSingleton.get("name");
+                long modelId = ((Number) modelSingleton.get("id")).longValue();
                 String licenseNumber = (String) carSingleton.get("licenseNumber");
-                Car car = new Car(carId, brand, model, licenseNumber);
+                Car car = new Car(carId, brand, brandId, model, modelId, licenseNumber);
                 this.cars.add(car);
             }
         } catch (Exception e){
@@ -189,5 +191,74 @@ public class User implements Parcelable {
         for(int i=0; i<cars.size(); i++){
             dest.writeString(cars.get(i).toParcelFormat());
         }
+    }
+
+    public JSONObject toJSON(){
+        JSONObject jobj = new JSONObject();
+
+        try{
+            jobj.put("id", id);
+            jobj.put("firstName", firstName);
+            jobj.put("lastName", lastName);
+            jobj.put("companyName", companyName);
+            jobj.put("username", username);
+            jobj.put("email", username);
+
+            JSONArray rolesArray = new JSONArray();
+
+            for(int i=0; i<roles.size(); i++){
+                JSONObject roleObject = new JSONObject();
+                long rid;
+                String name, authority;
+                switch (roles.get(i)){
+                    case "ADMIN":   rid = 1;
+                                    name = "ADMIN";
+                                    authority = "ADMIN";
+                                    break;
+                    case "OWNER":   rid = 2;
+                                    name = "OWNER";
+                                    authority = "OWNER";
+                                    break;
+                    case "EMPLOYEE": rid = 3;
+                                    name = "EMPLOYEE";
+                                    authority = "EMPLOYEE";
+                                    break;
+                    case "USER":
+                    default:    rid = 4;
+                                name = "USER";
+                                authority = "USER";
+                }
+                roleObject.put("id", rid);
+                roleObject.put("name", name);
+                roleObject.put("authority", authority);
+
+                rolesArray.put(roleObject);
+            }
+
+            JSONArray carArray = new JSONArray();
+
+            for(int i=0; i<cars.size(); i++){
+                Car car = cars.get(i);
+                JSONObject carObject = new JSONObject();
+                JSONObject modelObject = new JSONObject();
+                JSONObject brandObject = new JSONObject();
+
+                brandObject.put("id", car.getBrandid());
+                brandObject.put("name", car.getBrand());
+
+                modelObject.put("id", car.getModelid());
+                modelObject.put("name", car.getModel());
+                modelObject.put("brand", brandObject);
+
+                carObject.put("id", car.getId());
+                carObject.put("licenseNumber", car.getLicenseNumber());
+                carObject.put("model", modelObject);
+
+                carArray.put(carObject);
+            }
+        }catch(Exception e) {
+            Log.e("ExceptionError", e.toString());
+        }
+        return jobj;
     }
 }

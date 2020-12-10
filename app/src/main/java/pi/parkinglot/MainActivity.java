@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
     UserDao userDao;
 
     //TODO user only verification
-    //TODO parse firstname and lastname into drawer
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,12 +47,6 @@ public class MainActivity extends AppCompatActivity {
         passwordbox = (EditText) findViewById(R.id.loginPassword);
         userDB = UserRoomDatabase.getDatabase(getApplicationContext());
         userDao = userDB.userDao();
-        try{
-            userDao.deleteAll();
-        } catch(Exception e){
-            Log.e("ExceptionError", e.toString());
-        }
-
     }
 
     public void goToRegister(View view) {
@@ -68,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                userDao.deleteAll();
                 userDao.insert(user);
                 Intent intent = new Intent(getApplicationContext(), MainApp.class);
                 intent.putExtra("userToken", userToken);

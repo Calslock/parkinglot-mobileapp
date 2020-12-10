@@ -53,11 +53,10 @@ public class Register extends AppCompatActivity {
             if (!(savedInstanceState.getSerializable("logintoreg")).equals("")) {
                 login = (String) savedInstanceState.getSerializable("logintoreg");
             }
-            EditText logreg = (EditText) findViewById(R.id.emailRegister);
-            logreg.setText(login);
         }
 
         loginbox = (EditText) findViewById(R.id.emailRegister);
+        if(login != "") loginbox.setText(login);
         passwordbox = (EditText) findViewById(R.id.passwordRegister);
         firstnamebox = (EditText) findViewById(R.id.firstName);
         lastnamebox = (EditText) findViewById(R.id.lastName);

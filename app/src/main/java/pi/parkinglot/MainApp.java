@@ -41,12 +41,11 @@ public class MainApp extends AppCompatActivity {
 
     JWToken userToken;
     AppBarConfiguration mAppBarConfiguration;
-    User user;
-    TextView sideBarName, sideBarUsername;
     NavigationView navigationView;
 
     UserRoomDatabase userDB;
     UserDao userDao;
+
 
 
     @Override
@@ -57,13 +56,6 @@ public class MainApp extends AppCompatActivity {
 
         userDB = UserRoomDatabase.getDatabase(getApplicationContext());
         userDao = userDB.userDao();
-
-        if(savedInstanceState == null) {
-            Bundle extras = getIntent().getExtras();
-            if (extras != null) {
-                userToken = extras.getParcelable("userToken");
-            }
-        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -78,24 +70,6 @@ public class MainApp extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        new Thread(new Runnable(){
-            @Override
-            public void run() {
-                user = userDao.getUser(userToken.getId());
-                setSideBarContent();
-            }
-        }).start();
-
-    }
-
-    @SuppressLint("SetTextI18n")
-    public void setSideBarContent(){
-        View headerView = navigationView.getHeaderView(0);
-        sideBarName = (TextView) headerView.findViewById(R.id.sideBarName);
-        sideBarUsername = (TextView) headerView.findViewById(R.id.sideBarUsername);
-
-        sideBarName.setText(user.getFirstName() + " " + user.getLastName());
-        sideBarUsername.setText(user.getUsername());
     }
 
     @Override
@@ -111,6 +85,12 @@ public class MainApp extends AppCompatActivity {
     }
 
     public boolean logout(MenuItem item){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                userDao.deleteAll();
+            }
+        }).start();
         userToken = null;
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
