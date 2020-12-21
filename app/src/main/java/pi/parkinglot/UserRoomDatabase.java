@@ -14,10 +14,7 @@ import java.util.concurrent.Executors;
 @Database(entities = {User.class}, version = 1, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class UserRoomDatabase extends RoomDatabase {
-
     private static volatile UserRoomDatabase INSTANCE;
-    static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(1);
-
     static public UserRoomDatabase getDatabase(final Context context){
         if (INSTANCE == null){
             synchronized (UserRoomDatabase.class){
@@ -29,6 +26,5 @@ public abstract class UserRoomDatabase extends RoomDatabase {
         }
         return INSTANCE;
     }
-
     public abstract UserDao userDao();
 }

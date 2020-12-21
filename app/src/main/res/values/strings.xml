@@ -1,6 +1,6 @@
 <resources>
 
-    <string name="version">v0.7b563</string>
+    <string name="version">v0.8b589</string>
 
 
     <string name="app_name">ParkingLot</string>
@@ -36,5 +36,7 @@
     <string name="brand">Marka</string>
     <string name="model">Model</string>
     <string name="license_plate">Tablica</string>
+    <string name="add">Dodaj</string>
+    <string name="license_number">Numer tablicy</string>
 
 </resources>

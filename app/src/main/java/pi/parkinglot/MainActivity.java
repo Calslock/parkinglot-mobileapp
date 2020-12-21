@@ -84,17 +84,11 @@ public class MainActivity extends AppCompatActivity {
                     JsonObjectRequest jsonReq = new JsonObjectRequest(Request.Method.POST,
                             url,
                             credentials,
-                            new Response.Listener<JSONObject>(){
-                                @Override
-                                public void onResponse(JSONObject response) {
-                                    login(response);
-                                }},
-                            new Response.ErrorListener(){
-                                @Override
-                                public void onErrorResponse(VolleyError error){
-                                Log.e("Volley", error.toString());
-                                Toaster.makeToast(getApplicationContext(), "Wystąpił błąd z logowaniem");
-                                }
+                            response -> login(response),
+                            error -> {
+                            Log.e("Volley", error.toString());
+                            Toaster.makeToast(getApplicationContext(),
+                                    "Wystąpił błąd z logowaniem");
                             });
                     queue.add(jsonReq);
                 }catch(Exception e){
