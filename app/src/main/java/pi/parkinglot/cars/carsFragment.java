@@ -4,13 +4,15 @@ import androidx.lifecycle.ViewModelProviders;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.os.TestLooperManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +25,6 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -32,15 +33,16 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import pi.parkinglot.Car;
 import pi.parkinglot.JWToken;
@@ -67,6 +69,7 @@ public class carsFragment extends Fragment {
     Spinner modelSpinner, brandSpinner;
 
     EditText licenseNumberEditText;
+    TextInputLayout licenseNumberLabel, brandLabel, modelLabel;
 
     public static carsFragment newInstance() {
         return new carsFragment();
@@ -95,7 +98,7 @@ public class carsFragment extends Fragment {
             Log.e("ExceptionError", e.toString());
         }
         builder = new AlertDialog.Builder(mContext);
-        FloatingActionButton fab = root.findViewById(R.id.carFab);
+        FloatingActionButton fab = root.findViewById(R.id.carFabAdd);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -227,7 +230,7 @@ public class carsFragment extends Fragment {
                     if(car[0] == null || car[1] == null){
                         Toaster.makeToast(mContext, "Nie wybrano marki lub modelu samochodu");
                     }
-                    else if(licenseNumber.length() != 7){
+                    else if(licenseNumber.length() != 7 || !licenseNumber.matches("[A-Z0-9]")){
                         Toaster.makeToast(mContext, "Podano nieprawidłowy numer rejestracyjny");
                     }
                     else{
@@ -242,7 +245,6 @@ public class carsFragment extends Fragment {
                             model.put("name", car[1]);
                             request.put("model", model);
                             request.put("username", user.getUsername());
-                            Log.e("requset", request.toString());
 
                             RequestQueue queue = Volley.newRequestQueue(mContext);
                             JsonObjectRequest jsonReq = new JsonObjectRequest(Request.Method.POST,
@@ -330,7 +332,37 @@ public class carsFragment extends Fragment {
     }
 
     private void setupFloatingLabelErrorAddCar(View root){
+        licenseNumberLabel = (TextInputLayout) root.findViewById(R.id.carLicenseNumberLabel);
+        brandLabel = (TextInputLayout) root.findViewById(R.id.carBrandSpinnerLabel);
+        modelLabel = (TextInputLayout) root.findViewById(R.id.carModelSpinnerLabel);
 
+        licenseNumberLabel.setHelperText("Tablica rejestracyjna musi zawierać 7 znaków");
+        licenseNumberLabel.setHelperTextEnabled(true);
+        licenseNumberLabel.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!Pattern.matches("[A-Z0-9]{7}", s) || s.length()!=7){
+                    licenseNumberLabel.setError("Tablica rejestracyjna musi zawierać 7 poprawnych znaków");
+                    licenseNumberLabel.setErrorEnabled(true);
+                }
+                else{
+                    licenseNumberLabel.setErrorEnabled(false);
+                }
+                licenseNumberLabel.setHelperTextEnabled(false);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        brandLabel.setPrefixText("Marka");
+        modelLabel.setPrefixText("Model");
     }
 
 }
